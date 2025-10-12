@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock, Paper Scissors</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="./index.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
+    <script src="./index.js" defer></script>
+    
+</head>
+
+<body>
+    <main>s
+        <h1> Rock 🪨 Paper 📄 Scissors ✂️</h1>
+
+        <div class="roundContainer">
+            <label for="roundSelect">Best of</label>
+            <select id="roundSelect">
+                <option value="1">1</option>
+                <option value="3" selected>3</option>
+                <option value="5">5</option>
+                <option value="7">7</option>
+            </select>
+        </div>
+
+        <div class="choices">
+            <button onClick="playerChoose('rock')">rock 🪨</button>
+            <button onClick="playerChoose('paper')">paper 📄</button>
+            <button onClick="playerChoose('scissors')">scissors ✂️</button>
+        </div>
+
+
+        <div class="scoreboard">
+            Player Wins: <span id="pWin">0</span>
+            AI Wins: <span id="cWin">0</span>
+            Ties: <span id="ties">0</span>
+        </div>
+
+        <div id="roundResult"></div>
+        <div id="gameResult"></div>
+
+        <h2 class="vs-title"><span>Player</span> VS <span>the AI</span></h2>
+        <div id="matchArea">
+            <div class="side player-side">
+                <div class="choice-display" id="playerMatchChoice"></div>
+            </div>
+
+            <div class="side computer-side">
+                <div class="choice-display" id="computerMatchChoice"></div>
+            </div>
+        </div>
+
+        <div id="replayPrompt" style="display:none">
+            <p>Play again?</p>
+            <button onClick="resetGame()">Yes</button>
+            <button onClick="endGame()">No</button>
+        </div>
+    </main>
+
+    <footer>
+        <button onClick="resetGame()">🔄 Reset Game</button>
+        <button onClick="shareGame()">📤 Share Game</button>
+        <a href="https://sunnyappdev.com" target="_blank">🌐 My blog!</a>
+    </footer>
+
+</body>
+
+</html>

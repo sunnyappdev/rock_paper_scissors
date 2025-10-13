@@ -6,31 +6,6 @@ const choiceIcons = {
   scissors: "✂️",
 };
 
-// --- SOUND SPRITE SETUP ---
-const gameSounds = new Howl({
-  src: [
-    "https://assets.mixkit.co/sfx/preview/mixkit-extra-bonus-in-a-video-game-2045.mp3",
-    "https://assets.mixkit.co/sfx/preview/mixkit-player-losing-or-failing-2042.mp3",
-    "https://assets.mixkit.co/sfx/preview/mixkit-game-level-completed-2059.mp3",
-  ],
-  sprite: {
-    win: [0, 1800], // segment 1 (e.g., 0–1.8s)
-    lose: [2000, 2000], // segment 2 (e.g., 2–4s)
-    tie: [4000, 2000], // optional placeholder sound
-  },
-});
-
-// to make audio work on mobile
-document.addEventListener(
-  "click",
-  () => {
-    if (!gameSounds._sounds.length) return;
-    gameSounds.play("tie");
-    gameSounds.stop();
-  },
-  { once: true }
-);
-
 let total = {
   player: {
     win: 0,
@@ -45,6 +20,46 @@ let total = {
 };
 
 let currRound = 0;
+
+// start of helper code for audio
+const sounds = {
+  win: new Howl({
+    src: ["https://sunnyappdev.github.io/rock_paper_scissors//round_win.mp3"],
+  }),
+  lose: new Howl({
+    src: ["https://sunnyappdev.github.io/rock_paper_scissors/round_lose.wav"],
+  }),
+  gameWin: new Howl({
+    src: ["https://sunnyappdev.github.io/rock_paper_scissors/game_winner.wav"],
+  }),
+};
+
+// play after user action
+function handleRoundResult(result) {
+  if (result === "win") {
+    sounds.win.play();
+  } else if (result === "lose") {
+    sounds.lose.play();
+  }
+}
+
+// after final game result
+function gameWinnerAudio(isWinner) {
+  if (isWinner) {
+    sounds.gameWin.play();
+  }
+}
+
+// ensure mobile autoplay works
+document.body.addEventListener(
+  "click",
+  () => {
+    // First click initializes Howler’s audio context on mobile
+    Howler.ctx.resume();
+  },
+  { once: true }
+);
+// end of helper code for audio
 
 function playerChoose(choice, rounds) {
   console.log(`Player chooses: ${choice}.`);
@@ -188,6 +203,7 @@ function endGame() {
 function displayWinner(total) {
   if (total.player.win > total.computer.win) {
     document.getElementById("gameResult").textContent = "You WIN";
+    gameWinnerAudio(true);
     return;
   } else if (total.player.win === total.computer.win) {
     document.getElementById("gameResult").textContent = "It's a TIE";
@@ -256,12 +272,13 @@ function simulate(playerChoice) {
     // TODO doesn't work
     // play sounds
     if (result.player?.win) {
-      gameSounds.play("win");
+      handleRoundResult("win");
     } else if (result.player?.loss) {
-      gameSounds.play("lose");
-    } else {
-      gameSounds.play("tie");
+      handleRoundResult("lose");
     }
+    // else {
+    //   gameSounds.play("tie");
+    // }
 
     currRound++;
 
@@ -272,17 +289,17 @@ function simulate(playerChoice) {
       const main = document.querySelector("main");
       main.classList.add("self-destruct");
 
-      // document.getElementById("replayPrompt").style.display = "block";
-
-      // TODO
-      setTimeout(() => {
-        document.getElementById("replayPrompt").style.display = "block";
-      }, 3000); // show replay after animation
+      // TODO doesn't work ...
+      // setTimeout(() => {
+      //   document.getElementById("replayPrompt").style.display = "block";
+      // }, 3000); // show replay after self destruct animation animation
 
       return;
     }
     return;
   }, 2500);
+
+  document.getElementById("replayPrompt").style.display = "block";
 }
 
 function shareGame() {
@@ -306,4 +323,3 @@ function shareGame() {
 // TODO
 // TODO
 // choose a character .... Rocky, Cali, Uncle Alex
-// host on glitch?

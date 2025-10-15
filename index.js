@@ -35,7 +35,7 @@ const sounds = {
 };
 
 // play after user action
-function handleRoundResult(result) {
+function handleRoundResultAudio(result) {
   if (result === "win") {
     sounds.win.play();
   } else if (result === "lose") {
@@ -44,8 +44,8 @@ function handleRoundResult(result) {
 }
 
 // after final game result
-function gameWinnerAudio(isWinner) {
-  if (isWinner) {
+function playEndGameAudio(result) {
+  if (result === "win") {
     sounds.gameWin.play();
   }
 }
@@ -61,6 +61,7 @@ document.body.addEventListener(
 );
 // end of helper code for audio
 
+// player choice starts game!
 function playerChoose(choice, rounds) {
   console.log(`Player chooses: ${choice}.`);
 
@@ -86,6 +87,7 @@ function highlightChoice(choice) {
   setTimeout(() => selectedBtn.classList.remove("selected"), 500);
 }
 
+// rock paper scissors logic and updates total variable
 function playGame(playerChoice, computerChoice) {
   if (playerChoice === "rock") {
     if (computerChoice === "scissors") {
@@ -157,6 +159,7 @@ function displayRoundResult(result, currRound) {
   }:  ${winLoss}.`;
 }
 
+// keep track of changes in the total object
 function compare(prev, curr) {
   let change = { player: {}, computer: {} };
   for (const side of ["player", "computer"]) {
@@ -172,6 +175,7 @@ function compare(prev, curr) {
   return change;
 }
 
+// function called in html file when replay game prompt added to DOM
 function resetGame() {
   currRound = 0;
 
@@ -196,6 +200,7 @@ function resetGame() {
   updateScoreboard(total);
 }
 
+// function called in html file when replay game prompt added to DOM
 function endGame() {
   document.getElementById("replayPrompt").style.display = "none";
 }
@@ -203,7 +208,7 @@ function endGame() {
 function displayWinner(total) {
   if (total.player.win > total.computer.win) {
     document.getElementById("gameResult").textContent = "You WIN";
-    gameWinnerAudio(true);
+    playEndGameAudio("win");
     return;
   } else if (total.player.win === total.computer.win) {
     document.getElementById("gameResult").textContent = "It's a TIE";
@@ -252,7 +257,7 @@ function simulate(playerChoice) {
 
   const computerChoice = computerChoose();
 
-  // for animation
+  // for animation ... 2 seconds before computer choice displayed
   updateMatchArea(playerChoice, computerChoice);
 
   // delay determining round winner and calculating results
@@ -269,19 +274,20 @@ function simulate(playerChoice) {
     displayRoundResult(result, currRound);
     updateScoreboard(total);
 
-    // TODO doesn't work
     // play sounds
     if (result.player?.win) {
-      handleRoundResult("win");
+      handleRoundResultAudio("win");
     } else if (result.player?.loss) {
-      handleRoundResult("lose");
+      handleRoundResultAudio("lose");
     }
+    // TODO
     // else {
     //   gameSounds.play("tie");
     // }
 
     currRound++;
 
+    // display winner and then self destruction animation
     if (currRound === rounds) {
       displayWinner(total);
 
@@ -289,17 +295,15 @@ function simulate(playerChoice) {
       const main = document.querySelector("main");
       main.classList.add("self-destruct");
 
-      // TODO doesn't work ...
-      // setTimeout(() => {
-      //   document.getElementById("replayPrompt").style.display = "block";
-      // }, 3000); // show replay after self destruct animation animation
-
-      return;
+      // display prompt after self destruct animation ends (pure CSS animation 3 seconds)
+      setTimeout(() => {
+        main.classList.remove("self-destruct");
+        // TODO leave blur in match area and scoreboard and leave title and footer buttons
+        // TODO maybe instead of bluring elements remove them from DOM; add back for new game!
+        document.getElementById("replayPrompt").style.display = "block";
+      }, 3000); // show replay game prompt after self destruct animation
     }
-    return;
   }, 2500);
-
-  document.getElementById("replayPrompt").style.display = "block";
 }
 
 function shareGame() {
@@ -321,5 +325,5 @@ function shareGame() {
 }
 
 // TODO
-// TODO
-// choose a character .... Rocky, Cali, Uncle Alex
+// WTF async await instead of setTimeout!!!! think about this .... good for article
+// add a character select .... Rocky, Cali, Uncle Alex

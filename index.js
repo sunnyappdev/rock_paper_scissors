@@ -50,7 +50,7 @@ function playEndGameAudio(result) {
   }
 }
 
-// ensure mobile autoplay works
+// ensure audio on mobile browser works
 document.body.addEventListener(
   "click",
   () => {
@@ -191,10 +191,22 @@ function resetGame() {
     tie: 0,
   };
 
-  // clear round & game result & hide prompt
+  // clear round & game result & hide replay prompt
   document.getElementById("roundResult").textContent = "";
   document.getElementById("gameResult").textContent = "";
   document.getElementById("replayPrompt").style.display = "none";
+
+  // clear the icons from match area
+  const playerChoice = document.getElementById("playerMatchChoice");
+  const compChoice = document.getElementById("computerMatchChoice");
+  playerChoice.textContent = "";
+  compChoice.textContent = "";
+  playerChoice.classList.remove("show");
+  compChoice.classList.remove("show");
+
+  // show the match area again; previously hid it when replay prompt appeared
+  document.getElementById("matchArea").classList.remove("hidden");
+  document.querySelector(".vs-title").classList.remove("hidden");
 
   // clear scoreboard
   updateScoreboard(total);
@@ -298,9 +310,16 @@ function simulate(playerChoice) {
       // display prompt after self destruct animation ends (pure CSS animation 3 seconds)
       setTimeout(() => {
         main.classList.remove("self-destruct");
-        // TODO leave blur in match area and scoreboard and leave title and footer buttons
-        // TODO maybe instead of bluring elements remove them from DOM; add back for new game!
+
+        // hide match area so replay prompt is prominent ... display again in reset function
+        document.getElementById("matchArea").classList.add("hidden");
+        document.querySelector(".vs-title").classList.add("hidden");
+
         document.getElementById("replayPrompt").style.display = "block";
+
+        // user needs to click yes then replay prompt buttom will run resetGame()
+        // I do not automatically need to run the reset game function here
+        // resetGame();
       }, 3000); // show replay game prompt after self destruct animation
     }
   }, 2500);

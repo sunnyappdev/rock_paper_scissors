@@ -220,7 +220,7 @@ function endGame() {
 function displayWinner(total) {
   if (total.player.win > total.computer.win) {
     document.getElementById("gameResult").textContent = "You WIN";
-    playEndGameAudio("win");
+    playEndGameAudio("gameWin");
     return;
   } else if (total.player.win === total.computer.win) {
     document.getElementById("gameResult").textContent = "It's a TIE";
@@ -303,24 +303,32 @@ function simulate(playerChoice) {
     if (currRound === rounds) {
       displayWinner(total);
 
-      // self destruct animation
-      const main = document.querySelector("main");
-      main.classList.add("self-destruct");
+      const gameResult = document.getElementById("gameResult");
+      // TODO hide round result and make scoreboard also prominent
+      gameResult.classList.add("show-winner");
 
-      // display prompt after self destruct animation ends (pure CSS animation 3 seconds)
+      // delay the self destruct animation to show game winner
       setTimeout(() => {
-        main.classList.remove("self-destruct");
+        const main = document.querySelector("main");
+        main.classList.add("self-destruct");
 
-        // hide match area so replay prompt is prominent ... display again in reset function
-        document.getElementById("matchArea").classList.add("hidden");
-        document.querySelector(".vs-title").classList.add("hidden");
+        // display prompt after self destruct animation ends (pure CSS animation 3 seconds)
+        setTimeout(() => {
+          main.classList.remove("self-destruct");
 
-        document.getElementById("replayPrompt").style.display = "block";
+          // hide match area so replay prompt is prominent ... display again in reset function
+          document.getElementById("matchArea").classList.add("hidden");
+          document.querySelector(".vs-title").classList.add("hidden");
 
-        // user needs to click yes then replay prompt buttom will run resetGame()
-        // I do not automatically need to run the reset game function here
-        // resetGame();
-      }, 3000); // show replay game prompt after self destruct animation
+          gameResult.classList.remove("show-winner");
+
+          document.getElementById("replayPrompt").style.display = "block";
+
+          // user needs to click yes then replay prompt buttom will run resetGame()
+          // I do not automatically need to run the reset game function here
+          // resetGame();
+        }, 3000); // show replay game prompt after self destruct animation
+      }, 4000); // delay the self destruct animation to show game winner
     }
   }, 2500);
 }
@@ -344,5 +352,6 @@ function shareGame() {
 }
 
 // TODO
+// improve UI ... footer buttons ... display game winner prominently before reset
 // WTF async await instead of setTimeout!!!! think about this .... good for article
 // add a character select .... Rocky, Cali, Uncle Alex

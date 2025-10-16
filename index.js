@@ -154,6 +154,7 @@ function displayRoundResult(result, currRound) {
     winLoss = "TIED";
   }
 
+  document.getElementById("roundResult").classList.add("showResult");
   document.getElementById("roundResult").textContent = `Round ${
     currRound + 1
   }:  ${winLoss}.`;

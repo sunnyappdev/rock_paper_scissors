@@ -154,7 +154,6 @@ function displayRoundResult(result, currRound) {
     winLoss = "TIED";
   }
 
-  document.getElementById("roundResult").classList.add("showResult");
   document.getElementById("roundResult").textContent = `Round ${
     currRound + 1
   }:  ${winLoss}.`;
@@ -193,6 +192,7 @@ function resetGame() {
   };
 
   // clear round & game result & hide replay prompt
+  document.getElementById("roundResult").classList.remove("show");
   document.getElementById("roundResult").textContent = "";
   document.getElementById("gameResult").textContent = "";
   document.getElementById("replayPrompt").style.display = "none";
@@ -219,15 +219,17 @@ function endGame() {
 }
 
 function displayWinner(total) {
+  const gameResult = document.getElementById("gameResult");
+  gameResult.style.display = "block";
   if (total.player.win > total.computer.win) {
-    document.getElementById("gameResult").textContent = "You WIN";
+    gameResult.textContent = "You WIN";
     playEndGameAudio("gameWin");
     return;
   } else if (total.player.win === total.computer.win) {
-    document.getElementById("gameResult").textContent = "It's a TIE";
+    gameResult.textContent = "It's a TIE";
     return;
   } else {
-    document.getElementById("gameResult").textContent = "You LOSE";
+    gameResult.textContent = "You LOSE";
     return;
   }
 }
@@ -263,6 +265,9 @@ function updateMatchArea(playerChoice, computerChoice) {
 function simulate(playerChoice) {
   const roundSelect = document.getElementById("roundSelect");
   const rounds = parseInt(roundSelect.value, 10);
+
+  const roundResultEl = document.getElementById("roundResult");
+  roundResultEl.classList.add("show");
 
   highlightChoice(playerChoice);
 
@@ -304,8 +309,8 @@ function simulate(playerChoice) {
     if (currRound === rounds) {
       displayWinner(total);
 
+      // TODO make more visible by removing match area from screen
       const gameResult = document.getElementById("gameResult");
-      // TODO hide round result and make scoreboard also prominent
       gameResult.classList.add("show-winner");
 
       // delay the self destruct animation to show game winner

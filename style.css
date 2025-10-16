@@ -96,20 +96,7 @@ label[for="roundSelect"] {
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.4rem;
-
 }
-
-#roundResult {
-  margin: 0.3rem 0;
-  font-size: 1.1rem;
-  font-weight: bold;
-  min-height: 1.2em;
-}
-
-.showScore {
-  display: block;
-}
-
 
 #gameResult {
   font-size: 2rem;
@@ -137,16 +124,14 @@ label[for="roundSelect"] {
   }
 }
 
-
-
 /* start of CSS for match animation */
 #matchArea {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   margin: 1rem auto;
-  padding: 1rem 2rem;
+  padding: 1rem 2rem 1.5rem 0;
   width: 30%;
   max-width: 600px;
   border-radius: 10px;
@@ -163,18 +148,13 @@ label[for="roundSelect"] {
   transition: box-shadow 0.4s ease, background 0.4s ease;
 }
 
-.side {
-  flex: 1;
-  text-align: center;
-  padding: 0.5rem;
-}
-
 .vs-title {
   font-size: 1.2rem;
   font-weight: bold;
   text-transform: uppercase;
   background: linear-gradient(90deg, #4caf50, #00e5ff, #4caf50);
   background-size: 200% auto;
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: shine 3s linear infinite;
@@ -184,6 +164,31 @@ label[for="roundSelect"] {
 
 .vs-title span {
   color: white;
+}
+
+.side {
+  flex: 1;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+#roundResult {
+  position: absolute;
+  bottom: 5%; /* more space from bottom */
+  left: 50%; /* move to horizontal center of parent */
+  transform: translateX(
+    -50%
+  ); /* center horizontally, slide down for animation */
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #00e5ff;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+#roundResult.show {
+  opacity: 1;
 }
 
 @keyframes shine {

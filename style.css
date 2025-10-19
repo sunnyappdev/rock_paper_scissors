@@ -90,8 +90,8 @@ label[for="roundSelect"] {
 }
 
 .scoreboard {
-  margin: 0.5rem 0;
-  font-size: 1rem;
+  margin: 0.8rem 0;
+  font-size: 1.2rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -343,7 +343,7 @@ footer {
   gap: 1rem;
   /* space between buttons */
   padding: 1rem;
-  margin-top: 2rem;
+  margin: 0.5rem 0;
   flex-wrap: wrap;
   flex-shrink: 0;
   /* allows wrapping on small screens */

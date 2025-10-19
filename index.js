@@ -313,6 +313,8 @@ function simulate(playerChoice) {
 
       // delay the self destruct animation to show game winner
       setTimeout(() => {
+        gameResult.classList.remove("show-winner");
+
         const main = document.querySelector("main");
         main.classList.add("self-destruct");
 
@@ -323,8 +325,6 @@ function simulate(playerChoice) {
           // hide match area so replay prompt is prominent ... display again in reset function
           document.getElementById("matchArea").classList.add("hidden");
           document.querySelector(".vs-title").classList.add("hidden");
-
-          gameResult.classList.remove("show-winner");
 
           document.getElementById("replayPrompt").style.display = "block";
 

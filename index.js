@@ -151,12 +151,12 @@ function displayRoundResult(result, currRound) {
   } else if (result.player?.loss) {
     winLoss = "LOSE";
   } else {
-    winLoss = "TIED";
+    winLoss = "TIE";
   }
 
-  document.getElementById("roundResult").textContent = `Round ${
-    currRound + 1
-  }:  ${winLoss}.`;
+  const roundResultEl = document.getElementById("roundResult");
+  roundResultEl.textContent = `Round ${currRound + 1}:  ${winLoss}.`;
+  roundResultEl.classList.add("show");
 }
 
 // keep track of changes in the total object
@@ -223,7 +223,7 @@ function displayWinner(total) {
   gameResult.style.display = "block";
   if (total.player.win > total.computer.win) {
     gameResult.textContent = "You WIN";
-    playEndGameAudio("gameWin");
+    playEndGameAudio("win");
     return;
   } else if (total.player.win === total.computer.win) {
     gameResult.textContent = "It's a TIE";
@@ -234,6 +234,7 @@ function displayWinner(total) {
   }
 }
 
+// "thinking" then display computer choice after 2s
 function updateMatchArea(playerChoice, computerChoice) {
   const playerDiv = document.getElementById("playerMatchChoice");
   const compDiv = document.getElementById("computerMatchChoice");
@@ -265,9 +266,6 @@ function updateMatchArea(playerChoice, computerChoice) {
 function simulate(playerChoice) {
   const roundSelect = document.getElementById("roundSelect");
   const rounds = parseInt(roundSelect.value, 10);
-
-  const roundResultEl = document.getElementById("roundResult");
-  roundResultEl.classList.add("show");
 
   highlightChoice(playerChoice);
 
@@ -330,7 +328,7 @@ function simulate(playerChoice) {
 
           document.getElementById("replayPrompt").style.display = "block";
 
-          // user needs to click yes then replay prompt buttom will run resetGame()
+          // user needs to click yes then replay prompt button will run resetGame()
           // I do not automatically need to run the reset game function here
           // resetGame();
         }, 3000); // show replay game prompt after self destruct animation
@@ -358,6 +356,7 @@ function shareGame() {
 }
 
 // TODO
+// TODO gameResult not visible on mobile needs to be prominent so you know if won or lost!
 // improve UI ... footer buttons ... display game winner prominently before reset
 // WTF async await instead of setTimeout!!!! think about this .... good for article
 // add a character select .... Rocky, Cali, Uncle Alex

@@ -174,7 +174,7 @@ label[for="roundSelect"] {
 
 #roundResult {
   position: absolute;
-  bottom: 5%; /* more space from bottom */
+  bottom: 2%; /* more space from bottom */
   left: 50%; /* move to horizontal center of parent */
   transform: translateX(
     -50%
@@ -402,7 +402,7 @@ footer a:hover {
   }
 
   #gameResult {
-    font-size: 1.5rem;
+    font-size: 2rem;
   }
 
   #matchArea {

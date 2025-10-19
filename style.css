@@ -109,7 +109,7 @@ label[for="roundSelect"] {
 }
 
 .scoreboard {
-  margin: 0.8rem 0;
+  margin-bottom: 1rem;
   font-size: 1.2rem;
   display: flex;
   flex-wrap: wrap;
@@ -409,6 +409,10 @@ footer a:hover {
 @media (max-width: 600px) {
   h1 {
     font-size: 1.5rem;
+  }
+
+  .scoreboard {
+    margin-bottom: 0.8rem;
   }
 
   .vs-title {

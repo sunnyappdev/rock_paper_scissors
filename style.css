@@ -406,9 +406,13 @@ footer a:hover {
   }
 
   #matchArea {
-    /* flex-direction: column; */
-    width: 95%;
+    flex-direction: row;
+    width: 98%;
     padding: 0.8rem;
+  }
+
+  .choice-display {
+    font-size: 2rem;
   }
 
   footer {

@@ -354,9 +354,3 @@ function shareGame() {
     });
   }
 }
-
-// TODO
-// TODO gameResult not visible on mobile needs to be prominent so you know if won or lost!
-// improve UI ... footer buttons ... display game winner prominently before reset
-// WTF async await instead of setTimeout!!!! think about this .... good for article
-// add a character select .... Rocky, Cali, Uncle Alex
